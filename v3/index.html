@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <a href="#main-content" class="skip-link" style="position: absolute; top: -100px; left: 0; background: #2563EB; color: white; padding: 16px 24px; z-index: 10000; transition: top 0.3s; border-radius: 0 0 8px 0;">Skip to main content</a>
+    <a href="#main-content" class="skip-link" style="position: absolute; top: -100px; left: 0; background: #B8860B; color: white; padding: 16px 24px; z-index: 10000; transition: top 0.3s; border-radius: 0 0 8px 0;">Skip to main content</a>
     
     <canvas id="network-canvas" aria-hidden="true"></canvas>
     
@@ -330,7 +330,7 @@
     <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // 3D Globe Animation with Continents
+        // 3D Globe Animation with Clear Continents
         (function() {
             const container = document.getElementById('globe-container');
             if (!container) return;
@@ -340,41 +340,105 @@
             let previousMousePosition = { x: 0, y: 0 };
             let rotationVelocity = { x: 0, y: 0 };
             
-            // Continent coordinates (latitude, longitude) converted to 3D positions
+            // Detailed continent coordinates for clear shapes
             const continentData = [
-                // North America
-                { lat: 45, lon: -100 }, { lat: 50, lon: -120 }, { lat: 40, lon: -80 },
-                { lat: 35, lon: -95 }, { lat: 55, lon: -110 }, { lat: 60, lon: -100 },
-                { lat: 48, lon: -90 }, { lat: 42, lon: -75 }, { lat: 38, lon: -105 },
-                { lat: 30, lon: -95 }, { lat: 25, lon: -80 }, { lat: 20, lon: -100 },
-                { lat: 15, lon: -90 }, { lat: 65, lon: -100 }, { lat: 70, lon: -95 },
+                // North America - dense points for clear shape
+                { lat: 70, lon: -100 }, { lat: 65, lon: -110 }, { lat: 60, lon: -120 },
+                { lat: 55, lon: -125 }, { lat: 50, lon: -125 }, { lat: 48, lon: -120 },
+                { lat: 45, lon: -120 }, { lat: 42, lon: -122 }, { lat: 40, lon: -120 },
+                { lat: 38, lon: -120 }, { lat: 35, lon: -118 }, { lat: 32, lon: -117 },
+                { lat: 30, lon: -115 }, { lat: 28, lon: -110 }, { lat: 25, lon: -105 },
+                { lat: 22, lon: -100 }, { lat: 20, lon: -95 }, { lat: 18, lon: -92 },
+                { lat: 50, lon: -110 }, { lat: 50, lon: -100 }, { lat: 50, lon: -90 },
+                { lat: 52, lon: -80 }, { lat: 55, lon: -75 }, { lat: 48, lon: -85 },
+                { lat: 45, lon: -80 }, { lat: 42, lon: -78 }, { lat: 40, lon: -75 },
+                { lat: 38, lon: -78 }, { lat: 35, lon: -80 }, { lat: 32, lon: -82 },
+                { lat: 30, lon: -85 }, { lat: 28, lon: -82 }, { lat: 25, lon: -80 },
+                { lat: 22, lon: -78 }, { lat: 60, lon: -95 }, { lat: 62, lon: -90 },
+                { lat: 65, lon: -85 }, { lat: 68, lon: -90 }, { lat: 70, lon: -95 },
                 // South America
-                { lat: -15, lon: -60 }, { lat: -25, lon: -55 }, { lat: -35, lon: -65 },
-                { lat: -10, lon: -50 }, { lat: 0, lon: -65 }, { lat: -20, lon: -45 },
-                { lat: -30, lon: -55 }, { lat: -40, lon: -70 }, { lat: -5, lon: -55 },
+                { lat: 10, lon: -72 }, { lat: 5, lon: -75 }, { lat: 0, lon: -78 },
+                { lat: -5, lon: -78 }, { lat: -10, lon: -75 }, { lat: -15, lon: -70 },
+                { lat: -20, lon: -65 }, { lat: -25, lon: -60 }, { lat: -30, lon: -55 },
+                { lat: -35, lon: -58 }, { lat: -40, lon: -65 }, { lat: -45, lon: -70 },
+                { lat: -50, lon: -72 }, { lat: -55, lon: -68 }, { lat: 5, lon: -65 },
+                { lat: 8, lon: -60 }, { lat: 10, lon: -65 }, { lat: 12, lon: -68 },
+                { lat: -8, lon: -50 }, { lat: -12, lon: -45 }, { lat: -18, lon: -42 },
+                { lat: -22, lon: -40 }, { lat: -28, lon: -48 }, { lat: -32, lon: -52 },
                 // Europe
-                { lat: 50, lon: 10 }, { lat: 55, lon: 15 }, { lat: 45, lon: 5 },
-                { lat: 48, lon: 2 }, { lat: 52, lon: 20 }, { lat: 60, lon: 25 },
-                { lat: 40, lon: 0 }, { lat: 42, lon: 12 }, { lat: 38, lon: 23 },
-                { lat: 58, lon: 30 }, { lat: 62, lon: 15 }, { lat: 47, lon: 8 },
+                { lat: 70, lon: 25 }, { lat: 68, lon: 20 }, { lat: 65, lon: 15 },
+                { lat: 62, lon: 12 }, { lat: 60, lon: 10 }, { lat: 58, lon: 12 },
+                { lat: 56, lon: 10 }, { lat: 54, lon: 8 }, { lat: 52, lon: 5 },
+                { lat: 50, lon: 2 }, { lat: 48, lon: 0 }, { lat: 46, lon: -2 },
+                { lat: 44, lon: -5 }, { lat: 42, lon: -8 }, { lat: 40, lon: -5 },
+                { lat: 38, lon: 0 }, { lat: 36, lon: 5 }, { lat: 38, lon: 10 },
+                { lat: 40, lon: 15 }, { lat: 42, lon: 12 }, { lat: 44, lon: 15 },
+                { lat: 46, lon: 18 }, { lat: 48, lon: 20 }, { lat: 50, lon: 22 },
+                { lat: 52, lon: 25 }, { lat: 54, lon: 22 }, { lat: 56, lon: 25 },
+                { lat: 58, lon: 28 }, { lat: 60, lon: 30 }, { lat: 62, lon: 28 },
                 // Africa
-                { lat: 10, lon: 20 }, { lat: 0, lon: 25 }, { lat: -10, lon: 30 },
-                { lat: 20, lon: 10 }, { lat: 30, lon: 5 }, { lat: -20, lon: 25 },
-                { lat: -30, lon: 25 }, { lat: 15, lon: 0 }, { lat: 5, lon: 35 },
-                { lat: -5, lon: 15 }, { lat: 25, lon: 30 }, { lat: -15, lon: 35 },
+                { lat: 35, lon: 5 }, { lat: 32, lon: 0 }, { lat: 30, lon: -5 },
+                { lat: 28, lon: -10 }, { lat: 25, lon: -12 }, { lat: 22, lon: -15 },
+                { lat: 18, lon: -15 }, { lat: 15, lon: -15 }, { lat: 12, lon: -12 },
+                { lat: 10, lon: -10 }, { lat: 8, lon: -5 }, { lat: 5, lon: 0 },
+                { lat: 3, lon: 5 }, { lat: 0, lon: 10 }, { lat: -3, lon: 15 },
+                { lat: -5, lon: 20 }, { lat: -8, lon: 25 }, { lat: -10, lon: 30 },
+                { lat: -15, lon: 35 }, { lat: -20, lon: 35 }, { lat: -25, lon: 32 },
+                { lat: -30, lon: 28 }, { lat: -33, lon: 25 }, { lat: -35, lon: 20 },
+                { lat: 10, lon: 15 }, { lat: 12, lon: 20 }, { lat: 15, lon: 25 },
+                { lat: 18, lon: 30 }, { lat: 20, lon: 35 }, { lat: 25, lon: 35 },
+                { lat: 28, lon: 32 }, { lat: 30, lon: 30 }, { lat: 32, lon: 28 },
                 // Asia
-                { lat: 35, lon: 100 }, { lat: 40, lon: 110 }, { lat: 50, lon: 80 },
-                { lat: 55, lon: 90 }, { lat: 45, lon: 120 }, { lat: 30, lon: 115 },
-                { lat: 25, lon: 105 }, { lat: 20, lon: 80 }, { lat: 10, lon: 105 },
-                { lat: 35, lon: 75 }, { lat: 40, lon: 65 }, { lat: 38, lon: 140 },
-                { lat: 55, lon: 130 }, { lat: 60, lon: 100 }, { lat: 45, lon: 45 },
-                { lat: 15, lon: 100 }, { lat: 5, lon: 100 }, { lat: -5, lon: 115 },
+                { lat: 70, lon: 80 }, { lat: 68, lon: 90 }, { lat: 65, lon: 100 },
+                { lat: 62, lon: 110 }, { lat: 60, lon: 120 }, { lat: 58, lon: 130 },
+                { lat: 55, lon: 135 }, { lat: 52, lon: 140 }, { lat: 50, lon: 140 },
+                { lat: 48, lon: 135 }, { lat: 45, lon: 130 }, { lat: 42, lon: 130 },
+                { lat: 40, lon: 128 }, { lat: 38, lon: 125 }, { lat: 35, lon: 120 },
+                { lat: 32, lon: 118 }, { lat: 30, lon: 115 }, { lat: 28, lon: 110 },
+                { lat: 25, lon: 105 }, { lat: 22, lon: 100 }, { lat: 20, lon: 95 },
+                { lat: 18, lon: 90 }, { lat: 15, lon: 85 }, { lat: 12, lon: 80 },
+                { lat: 10, lon: 78 }, { lat: 8, lon: 75 }, { lat: 5, lon: 80 },
+                { lat: 3, lon: 100 }, { lat: 0, lon: 105 }, { lat: -5, lon: 110 },
+                { lat: -8, lon: 115 }, { lat: -7, lon: 110 }, { lat: 40, lon: 60 },
+                { lat: 42, lon: 55 }, { lat: 45, lon: 50 }, { lat: 50, lon: 45 },
+                { lat: 55, lon: 40 }, { lat: 60, lon: 50 }, { lat: 65, lon: 60 },
                 // Australia
-                { lat: -25, lon: 135 }, { lat: -30, lon: 140 }, { lat: -20, lon: 130 },
-                { lat: -35, lon: 145 }, { lat: -28, lon: 115 }, { lat: -15, lon: 130 },
+                { lat: -12, lon: 130 }, { lat: -15, lon: 132 }, { lat: -18, lon: 135 },
+                { lat: -20, lon: 138 }, { lat: -22, lon: 140 }, { lat: -25, lon: 142 },
+                { lat: -28, lon: 145 }, { lat: -30, lon: 148 }, { lat: -32, lon: 150 },
+                { lat: -35, lon: 150 }, { lat: -38, lon: 148 }, { lat: -35, lon: 145 },
+                { lat: -32, lon: 140 }, { lat: -30, lon: 138 }, { lat: -28, lon: 135 },
+                { lat: -25, lon: 132 }, { lat: -22, lon: 128 }, { lat: -20, lon: 125 },
+                { lat: -18, lon: 122 }, { lat: -15, lon: 120 }, { lat: -12, lon: 125 },
                 // Middle East
-                { lat: 30, lon: 45 }, { lat: 25, lon: 50 }, { lat: 35, lon: 55 },
-                { lat: 20, lon: 55 }, { lat: 28, lon: 40 },
+                { lat: 35, lon: 40 }, { lat: 33, lon: 45 }, { lat: 30, lon: 48 },
+                { lat: 28, lon: 50 }, { lat: 25, lon: 55 }, { lat: 22, lon: 58 },
+                { lat: 20, lon: 55 }, { lat: 18, lon: 52 }, { lat: 15, lon: 50 },
+                { lat: 32, lon: 50 }, { lat: 30, lon: 55 }, { lat: 28, lon: 58 },
+                // Japan/Korea
+                { lat: 45, lon: 142 }, { lat: 43, lon: 145 }, { lat: 40, lon: 140 },
+                { lat: 38, lon: 138 }, { lat: 35, lon: 135 }, { lat: 33, lon: 132 },
+                { lat: 38, lon: 128 }, { lat: 36, lon: 127 }, { lat: 35, lon: 129 },
+                // New Zealand
+                { lat: -35, lon: 175 }, { lat: -38, lon: 178 }, { lat: -42, lon: 175 },
+                { lat: -45, lon: 170 },
+                // Madagascar
+                { lat: -12, lon: 49 }, { lat: -15, lon: 50 }, { lat: -18, lon: 48 },
+                { lat: -20, lon: 45 },
+                // Iceland
+                { lat: 65, lon: -18 }, { lat: 64, lon: -20 }, { lat: 66, lon: -16 },
+                // UK/Ireland
+                { lat: 55, lon: -5 }, { lat: 53, lon: -8 }, { lat: 52, lon: -7 },
+                { lat: 51, lon: -3 }, { lat: 50, lon: -5 },
+                // Scandinavia
+                { lat: 70, lon: 20 }, { lat: 68, lon: 15 }, { lat: 65, lon: 18 },
+                { lat: 62, lon: 18 }, { lat: 60, lon: 20 }, { lat: 58, lon: 15 },
+                // Alaska
+                { lat: 65, lon: -155 }, { lat: 62, lon: -150 }, { lat: 60, lon: -145 },
+                { lat: 58, lon: -140 }, { lat: 55, lon: -132 },
+                // Greenland
+                { lat: 72, lon: -40 }, { lat: 70, lon: -45 }, { lat: 68, lon: -50 },
+                { lat: 75, lon: -45 }, { lat: 78, lon: -55 },
             ];
             
             function latLonToVector3(lat, lon, radius) {
@@ -395,8 +459,8 @@
                 // Camera
                 const containerWidth = container.clientWidth;
                 const containerHeight = container.clientHeight;
-                camera = new THREE.PerspectiveCamera(50, containerWidth / containerHeight, 0.1, 1000);
-                camera.position.z = 350;
+                camera = new THREE.PerspectiveCamera(45, containerWidth / containerHeight, 0.1, 1000);
+                camera.position.z = 450;
                 
                 // Renderer
                 renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -408,69 +472,69 @@
                 globe = new THREE.Group();
                 scene.add(globe);
                 
-                // Globe wireframe - gray color
-                const globeGeometry = new THREE.IcosahedronGeometry(100, 3);
+                // Globe wireframe - subtle gray
+                const globeGeometry = new THREE.IcosahedronGeometry(150, 3);
                 const wireframeMaterial = new THREE.MeshBasicMaterial({
-                    color: 0x94A3B8,
+                    color: 0xD6D3D1,
                     wireframe: true,
                     transparent: true,
-                    opacity: 0.2
+                    opacity: 0.15
                 });
                 const globeMesh = new THREE.Mesh(globeGeometry, wireframeMaterial);
                 globe.add(globeMesh);
                 
-                // Inner solid sphere
-                const innerGeometry = new THREE.SphereGeometry(98, 32, 32);
+                // Inner solid sphere - very subtle
+                const innerGeometry = new THREE.SphereGeometry(148, 32, 32);
                 const innerMaterial = new THREE.MeshBasicMaterial({
-                    color: 0xF8FAFC,
+                    color: 0xFAFAF9,
                     transparent: true,
-                    opacity: 0.5
+                    opacity: 0.3
                 });
                 const innerSphere = new THREE.Mesh(innerGeometry, innerMaterial);
                 globe.add(innerSphere);
                 
-                // Add continent dots
-                const dotGeometry = new THREE.SphereGeometry(2, 8, 8);
-                const dotMaterial = new THREE.MeshBasicMaterial({ color: 0x2563EB });
+                // Add continent dots - GOLD color
+                const dotGeometry = new THREE.SphereGeometry(2.5, 8, 8);
+                const dotMaterial = new THREE.MeshBasicMaterial({ color: 0xD4A853 });
                 
                 continentData.forEach(coord => {
-                    const position = latLonToVector3(coord.lat, coord.lon, 102);
+                    const position = latLonToVector3(coord.lat, coord.lon, 152);
                     const dot = new THREE.Mesh(dotGeometry, dotMaterial);
                     dot.position.copy(position);
                     globe.add(dot);
                 });
                 
-                // Glow around continent dots
-                const glowDotGeometry = new THREE.SphereGeometry(3, 8, 8);
+                // Glow around continent dots - subtle gold glow
+                const glowDotGeometry = new THREE.SphereGeometry(4, 8, 8);
                 const glowDotMaterial = new THREE.MeshBasicMaterial({
-                    color: 0x3B82F6,
+                    color: 0xD4A853,
                     transparent: true,
-                    opacity: 0.3
+                    opacity: 0.2
                 });
                 
                 continentData.forEach(coord => {
-                    const position = latLonToVector3(coord.lat, coord.lon, 102);
+                    const position = latLonToVector3(coord.lat, coord.lon, 152);
                     const glowDot = new THREE.Mesh(glowDotGeometry, glowDotMaterial);
                     glowDot.position.copy(position);
                     globe.add(glowDot);
                 });
                 
-                // Particles around globe
+                // Particles around globe - very subtle
                 const particlesGeometry = new THREE.BufferGeometry();
-                const particlesCount = 500;
+                const particlesCount = 300;
                 const posArray = new Float32Array(particlesCount * 3);
                 
                 for(let i = 0; i < particlesCount * 3; i++) {
-                    posArray[i] = (Math.random() - 0.5) * 600;
+                    posArray[i] = (Math.random() - 0.5) * 800;
                 }
                 
                 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
                 
                 const particlesMaterial = new THREE.PointsMaterial({
-                    size: 1,
-                    color: 0x94A3B8,
+                    size: 0.8,
+                    color: 0xD4A853,
                     transparent: true,
-                    opacity: 0.4,
+                    opacity: 0.25,
                     blending: THREE.AdditiveBlending
                 });
                 
@@ -478,10 +542,10 @@
                 scene.add(particles);
                 
                 // Lights
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
                 scene.add(ambientLight);
                 
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3);
                 directionalLight.position.set(5, 3, 5);
                 scene.add(directionalLight);
                 
