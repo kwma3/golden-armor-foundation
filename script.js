@@ -1,15 +1,15 @@
-// Golden Armor Foundation - JavaScript with Blue Security Theme
+// Golden Armor Foundation - JavaScript with White Background & Blue Theme
 
-// Particle Network Background - Blue Theme
+// Particle Network Background - Blue on White
 class ParticleNetwork {
     constructor(canvas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.particles = [];
         this.mouse = { x: null, y: null };
-        this.particleCount = 60;
+        this.particleCount = 50;
         this.connectionDistance = 180;
-        this.mouseRadius = 200;
+        this.mouseRadius = 180;
         
         this.resize();
         this.init();
@@ -44,9 +44,9 @@ class ParticleNetwork {
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 
                 if (distance < this.connectionDistance) {
-                    const opacity = (1 - distance / this.connectionDistance) * 0.2;
+                    const opacity = (1 - distance / this.connectionDistance) * 0.15;
                     this.ctx.beginPath();
-                    this.ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
+                    this.ctx.strokeStyle = `rgba(37, 99, 235, ${opacity})`;
                     this.ctx.lineWidth = 1;
                     this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
                     this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
@@ -69,11 +69,11 @@ class Particle {
         this.network = network;
         this.x = Math.random() * network.canvas.width;
         this.y = Math.random() * network.canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.radius = Math.random() * 1.5 + 0.5;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.radius = Math.random() * 2 + 1;
         this.baseRadius = this.radius;
-        this.opacity = Math.random() * 0.5 + 0.3;
+        this.opacity = Math.random() * 0.4 + 0.2;
     }
     
     update() {
@@ -94,30 +94,32 @@ class Particle {
             if (distance < this.network.mouseRadius) {
                 const force = (this.network.mouseRadius - distance) / this.network.mouseRadius;
                 this.radius = this.baseRadius + force * 2;
-                this.opacity = Math.min(1, this.opacity + force * 0.3);
+                this.opacity = Math.min(0.8, this.opacity + force * 0.2);
             } else {
                 this.radius = this.baseRadius;
-                this.opacity = Math.max(0.3, this.opacity - 0.02);
+                this.opacity = Math.max(0.2, this.opacity - 0.01);
             }
         }
     }
     
     draw() {
+        // Subtle blue glow
         const gradient = this.network.ctx.createRadialGradient(
             this.x, this.y, 0,
-            this.x, this.y, this.radius * 4
+            this.x, this.y, this.radius * 3
         );
-        gradient.addColorStop(0, `rgba(59, 130, 246, ${this.opacity * 0.5})`);
-        gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+        gradient.addColorStop(0, `rgba(37, 99, 235, ${this.opacity * 0.3})`);
+        gradient.addColorStop(1, 'rgba(37, 99, 235, 0)');
         
         this.network.ctx.beginPath();
-        this.network.ctx.arc(this.x, this.y, this.radius * 4, 0, Math.PI * 2);
+        this.network.ctx.arc(this.x, this.y, this.radius * 3, 0, Math.PI * 2);
         this.network.ctx.fillStyle = gradient;
         this.network.ctx.fill();
         
+        // Core particle - blue
         this.network.ctx.beginPath();
         this.network.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        this.network.ctx.fillStyle = `rgba(96, 165, 250, ${this.opacity})`;
+        this.network.ctx.fillStyle = `rgba(37, 99, 235, ${this.opacity})`;
         this.network.ctx.fill();
     }
 }
@@ -289,11 +291,11 @@ document.addEventListener('DOMContentLoaded', function() {
         notification.className = `notification notification-${type}`;
         notification.setAttribute('role', 'alert');
         
-        const bgColor = type === 'success' ? '#3B82F6' : '#333333';
+        const bgColor = type === 'success' ? '#2563EB' : '#475569';
         
         notification.innerHTML = `
             <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.2); border-radius: 50; font-size: 14px; font-weight: bold;">${type === 'success' ? '✓' : '✕'}</span>
+                <span style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.2); border-radius: 50%; font-size: 14px; font-weight: bold;">${type === 'success' ? '✓' : '✕'}</span>
                 <span>${message}</span>
             </div>
             <button class="notification-close" aria-label="Close" style="background: none; border: none; color: white; font-size: 24px; cursor: pointer; padding: 8px;">&times;</button>
@@ -311,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alignItems: 'center',
             justifyContent: 'space-between',
             gap: '16px',
-            boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
+            boxShadow: '0 10px 40px rgba(37, 99, 235, 0.3)',
             zIndex: '9999',
             animation: 'slideInRight 0.3s ease',
             maxWidth: '400px',
@@ -354,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
             animation: spin 0.8s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .nav-links a.active { color: #60A5FA !important; }
+        .nav-links a.active { color: #2563EB !important; background: rgba(37, 99, 235, 0.08); }
     `;
     document.head.appendChild(style);
     
