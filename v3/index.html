@@ -39,29 +39,31 @@
 
     <main id="main-content">
         <section class="hero" aria-labelledby="hero-title">
-            <div id="globe-container"></div>
-            <div class="hero-content container">
-                <div class="hero-badge">Shielding Communities Since 2020</div>
-                <h1 id="hero-title" class="hero-title">Building a <span class="highlight">Stronger</span> World Together</h1>
-                <p class="hero-subtitle">We are a global force for protection, empowerment, and healing—delivering life-changing resources to communities who need them most.</p>
-                <div class="hero-cta">
-                    <a href="#donate" class="btn btn-primary btn-lg">Support Our Mission</a>
-                    <a href="#programs" class="btn btn-glass btn-lg">Explore Programs</a>
+            <div class="hero-layout container">
+                <div class="hero-content">
+                    <div class="hero-badge">Shielding communities since 2020</div>
+                    <h1 id="hero-title" class="hero-title">Building a <span class="highlight">stronger</span> world together</h1>
+                    <p class="hero-subtitle">We are a global force for protection, empowerment, and healing—delivering life-changing resources to communities who need them most.</p>
+                    <div class="hero-cta">
+                        <a href="#donate" class="btn btn-primary btn-lg">Support our mission</a>
+                        <a href="#programs" class="btn btn-glass btn-lg">Explore programs</a>
+                    </div>
+                    <div class="hero-stats" role="list" aria-label="Foundation statistics">
+                        <div class="hero-stat" role="listitem">
+                            <span class="hero-stat-value">500+</span>
+                            <span class="hero-stat-label">Scholarships</span>
+                        </div>
+                        <div class="hero-stat" role="listitem">
+                            <span class="hero-stat-value">$2M+</span>
+                            <span class="hero-stat-label">Research funded</span>
+                        </div>
+                        <div class="hero-stat" role="listitem">
+                            <span class="hero-stat-value">150+</span>
+                            <span class="hero-stat-label">Water wells</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="hero-stats" role="list" aria-label="Foundation statistics">
-                    <div class="hero-stat" role="listitem">
-                        <span class="hero-stat-value">500+</span>
-                        <span class="hero-stat-label">Scholarships</span>
-                    </div>
-                    <div class="hero-stat" role="listitem">
-                        <span class="hero-stat-value">$2M+</span>
-                        <span class="hero-stat-label">Research Funded</span>
-                    </div>
-                    <div class="hero-stat" role="listitem">
-                        <span class="hero-stat-value">150+</span>
-                        <span class="hero-stat-label">Water Wells</span>
-                    </div>
-                </div>
+                <div id="globe-container"></div>
             </div>
         </section>
 
@@ -328,143 +330,264 @@
     <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // 3D Globe Animation
+        // 3D Globe Animation with Continents
         (function() {
             const container = document.getElementById('globe-container');
             if (!container) return;
             
             let scene, camera, renderer, globe, particles;
-            let mouseX = 0, mouseY = 0;
-            let targetRotationX = 0, targetRotationY = 0;
+            let isDragging = false;
+            let previousMousePosition = { x: 0, y: 0 };
+            let rotationVelocity = { x: 0, y: 0 };
+            
+            // Continent coordinates (latitude, longitude) converted to 3D positions
+            const continentData = [
+                // North America
+                { lat: 45, lon: -100 }, { lat: 50, lon: -120 }, { lat: 40, lon: -80 },
+                { lat: 35, lon: -95 }, { lat: 55, lon: -110 }, { lat: 60, lon: -100 },
+                { lat: 48, lon: -90 }, { lat: 42, lon: -75 }, { lat: 38, lon: -105 },
+                { lat: 30, lon: -95 }, { lat: 25, lon: -80 }, { lat: 20, lon: -100 },
+                { lat: 15, lon: -90 }, { lat: 65, lon: -100 }, { lat: 70, lon: -95 },
+                // South America
+                { lat: -15, lon: -60 }, { lat: -25, lon: -55 }, { lat: -35, lon: -65 },
+                { lat: -10, lon: -50 }, { lat: 0, lon: -65 }, { lat: -20, lon: -45 },
+                { lat: -30, lon: -55 }, { lat: -40, lon: -70 }, { lat: -5, lon: -55 },
+                // Europe
+                { lat: 50, lon: 10 }, { lat: 55, lon: 15 }, { lat: 45, lon: 5 },
+                { lat: 48, lon: 2 }, { lat: 52, lon: 20 }, { lat: 60, lon: 25 },
+                { lat: 40, lon: 0 }, { lat: 42, lon: 12 }, { lat: 38, lon: 23 },
+                { lat: 58, lon: 30 }, { lat: 62, lon: 15 }, { lat: 47, lon: 8 },
+                // Africa
+                { lat: 10, lon: 20 }, { lat: 0, lon: 25 }, { lat: -10, lon: 30 },
+                { lat: 20, lon: 10 }, { lat: 30, lon: 5 }, { lat: -20, lon: 25 },
+                { lat: -30, lon: 25 }, { lat: 15, lon: 0 }, { lat: 5, lon: 35 },
+                { lat: -5, lon: 15 }, { lat: 25, lon: 30 }, { lat: -15, lon: 35 },
+                // Asia
+                { lat: 35, lon: 100 }, { lat: 40, lon: 110 }, { lat: 50, lon: 80 },
+                { lat: 55, lon: 90 }, { lat: 45, lon: 120 }, { lat: 30, lon: 115 },
+                { lat: 25, lon: 105 }, { lat: 20, lon: 80 }, { lat: 10, lon: 105 },
+                { lat: 35, lon: 75 }, { lat: 40, lon: 65 }, { lat: 38, lon: 140 },
+                { lat: 55, lon: 130 }, { lat: 60, lon: 100 }, { lat: 45, lon: 45 },
+                { lat: 15, lon: 100 }, { lat: 5, lon: 100 }, { lat: -5, lon: 115 },
+                // Australia
+                { lat: -25, lon: 135 }, { lat: -30, lon: 140 }, { lat: -20, lon: 130 },
+                { lat: -35, lon: 145 }, { lat: -28, lon: 115 }, { lat: -15, lon: 130 },
+                // Middle East
+                { lat: 30, lon: 45 }, { lat: 25, lon: 50 }, { lat: 35, lon: 55 },
+                { lat: 20, lon: 55 }, { lat: 28, lon: 40 },
+            ];
+            
+            function latLonToVector3(lat, lon, radius) {
+                const phi = (90 - lat) * (Math.PI / 180);
+                const theta = (lon + 180) * (Math.PI / 180);
+                
+                return new THREE.Vector3(
+                    -radius * Math.sin(phi) * Math.cos(theta),
+                    radius * Math.cos(phi),
+                    radius * Math.sin(phi) * Math.sin(theta)
+                );
+            }
             
             function init() {
                 // Scene
                 scene = new THREE.Scene();
                 
                 // Camera
-                camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                camera.position.z = 300;
+                const containerWidth = container.clientWidth;
+                const containerHeight = container.clientHeight;
+                camera = new THREE.PerspectiveCamera(50, containerWidth / containerHeight, 0.1, 1000);
+                camera.position.z = 350;
                 
                 // Renderer
                 renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setSize(containerWidth, containerHeight);
                 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
                 container.appendChild(renderer.domElement);
                 
-                // Globe geometry - icosahedron for more organic look
-                const globeGeometry = new THREE.IcosahedronGeometry(100, 4);
+                // Globe group for rotation
+                globe = new THREE.Group();
+                scene.add(globe);
                 
-                // Wireframe material
+                // Globe wireframe - gray color
+                const globeGeometry = new THREE.IcosahedronGeometry(100, 3);
                 const wireframeMaterial = new THREE.MeshBasicMaterial({
-                    color: 0x2563EB,
+                    color: 0x94A3B8,
                     wireframe: true,
+                    transparent: true,
+                    opacity: 0.2
+                });
+                const globeMesh = new THREE.Mesh(globeGeometry, wireframeMaterial);
+                globe.add(globeMesh);
+                
+                // Inner solid sphere
+                const innerGeometry = new THREE.SphereGeometry(98, 32, 32);
+                const innerMaterial = new THREE.MeshBasicMaterial({
+                    color: 0xF8FAFC,
+                    transparent: true,
+                    opacity: 0.5
+                });
+                const innerSphere = new THREE.Mesh(innerGeometry, innerMaterial);
+                globe.add(innerSphere);
+                
+                // Add continent dots
+                const dotGeometry = new THREE.SphereGeometry(2, 8, 8);
+                const dotMaterial = new THREE.MeshBasicMaterial({ color: 0x2563EB });
+                
+                continentData.forEach(coord => {
+                    const position = latLonToVector3(coord.lat, coord.lon, 102);
+                    const dot = new THREE.Mesh(dotGeometry, dotMaterial);
+                    dot.position.copy(position);
+                    globe.add(dot);
+                });
+                
+                // Glow around continent dots
+                const glowDotGeometry = new THREE.SphereGeometry(3, 8, 8);
+                const glowDotMaterial = new THREE.MeshBasicMaterial({
+                    color: 0x3B82F6,
                     transparent: true,
                     opacity: 0.3
                 });
                 
-                globe = new THREE.Mesh(globeGeometry, wireframeMaterial);
-                scene.add(globe);
-                
-                // Inner glow sphere
-                const glowGeometry = new THREE.SphereGeometry(95, 32, 32);
-                const glowMaterial = new THREE.MeshBasicMaterial({
-                    color: 0x2563EB,
-                    transparent: true,
-                    opacity: 0.05
+                continentData.forEach(coord => {
+                    const position = latLonToVector3(coord.lat, coord.lon, 102);
+                    const glowDot = new THREE.Mesh(glowDotGeometry, glowDotMaterial);
+                    glowDot.position.copy(position);
+                    globe.add(glowDot);
                 });
-                const glow = new THREE.Mesh(glowGeometry, glowMaterial);
-                scene.add(glow);
                 
                 // Particles around globe
                 const particlesGeometry = new THREE.BufferGeometry();
-                const particlesCount = 1500;
+                const particlesCount = 500;
                 const posArray = new Float32Array(particlesCount * 3);
                 
                 for(let i = 0; i < particlesCount * 3; i++) {
-                    posArray[i] = (Math.random() - 0.5) * 500;
+                    posArray[i] = (Math.random() - 0.5) * 600;
                 }
                 
                 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
                 
                 const particlesMaterial = new THREE.PointsMaterial({
-                    size: 1.5,
-                    color: 0x3B82F6,
+                    size: 1,
+                    color: 0x94A3B8,
                     transparent: true,
-                    opacity: 0.6,
+                    opacity: 0.4,
                     blending: THREE.AdditiveBlending
                 });
                 
                 particles = new THREE.Points(particlesGeometry, particlesMaterial);
                 scene.add(particles);
                 
-                // Outer ring
-                const ringGeometry = new THREE.RingGeometry(130, 132, 64);
-                const ringMaterial = new THREE.MeshBasicMaterial({
-                    color: 0x2563EB,
-                    transparent: true,
-                    opacity: 0.2,
-                    side: THREE.DoubleSide
-                });
-                const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-                ring.rotation.x = Math.PI / 2.5;
-                scene.add(ring);
-                
-                // Second ring
-                const ring2Geometry = new THREE.RingGeometry(145, 146, 64);
-                const ring2Material = new THREE.MeshBasicMaterial({
-                    color: 0x3B82F6,
-                    transparent: true,
-                    opacity: 0.1,
-                    side: THREE.DoubleSide
-                });
-                const ring2 = new THREE.Mesh(ring2Geometry, ring2Material);
-                ring2.rotation.x = Math.PI / 3;
-                ring2.rotation.y = Math.PI / 4;
-                scene.add(ring2);
-                
                 // Lights
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
                 scene.add(ambientLight);
                 
-                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
                 directionalLight.position.set(5, 3, 5);
                 scene.add(directionalLight);
                 
-                // Event listeners
-                document.addEventListener('mousemove', onMouseMove);
+                // Mouse drag events
+                container.addEventListener('mousedown', onMouseDown);
+                container.addEventListener('mousemove', onMouseMove);
+                container.addEventListener('mouseup', onMouseUp);
+                container.addEventListener('mouseleave', onMouseUp);
+                
+                // Touch events
+                container.addEventListener('touchstart', onTouchStart);
+                container.addEventListener('touchmove', onTouchMove);
+                container.addEventListener('touchend', onMouseUp);
+                
                 window.addEventListener('resize', onWindowResize);
                 
                 animate();
             }
             
+            function onMouseDown(event) {
+                isDragging = true;
+                previousMousePosition = {
+                    x: event.clientX,
+                    y: event.clientY
+                };
+            }
+            
             function onMouseMove(event) {
-                mouseX = (event.clientX - window.innerWidth / 2) * 0.0005;
-                mouseY = (event.clientY - window.innerHeight / 2) * 0.0005;
+                if (!isDragging) return;
+                
+                const deltaMove = {
+                    x: event.clientX - previousMousePosition.x,
+                    y: event.clientY - previousMousePosition.y
+                };
+                
+                rotationVelocity.x = deltaMove.y * 0.005;
+                rotationVelocity.y = deltaMove.x * 0.005;
+                
+                globe.rotation.x += rotationVelocity.x;
+                globe.rotation.y += rotationVelocity.y;
+                
+                previousMousePosition = {
+                    x: event.clientX,
+                    y: event.clientY
+                };
+            }
+            
+            function onTouchStart(event) {
+                isDragging = true;
+                previousMousePosition = {
+                    x: event.touches[0].clientX,
+                    y: event.touches[0].clientY
+                };
+            }
+            
+            function onTouchMove(event) {
+                if (!isDragging) return;
+                event.preventDefault();
+                
+                const deltaMove = {
+                    x: event.touches[0].clientX - previousMousePosition.x,
+                    y: event.touches[0].clientY - previousMousePosition.y
+                };
+                
+                rotationVelocity.x = deltaMove.y * 0.005;
+                rotationVelocity.y = deltaMove.x * 0.005;
+                
+                globe.rotation.x += rotationVelocity.x;
+                globe.rotation.y += rotationVelocity.y;
+                
+                previousMousePosition = {
+                    x: event.touches[0].clientX,
+                    y: event.touches[0].clientY
+                };
+            }
+            
+            function onMouseUp() {
+                isDragging = false;
             }
             
             function onWindowResize() {
-                camera.aspect = window.innerWidth / window.innerHeight;
+                const containerWidth = container.clientWidth;
+                const containerHeight = container.clientHeight;
+                camera.aspect = containerWidth / containerHeight;
                 camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setSize(containerWidth, containerHeight);
             }
             
             function animate() {
                 requestAnimationFrame(animate);
                 
-                // Auto rotation
-                globe.rotation.y += 0.002;
-                globe.rotation.x += 0.001;
-                
-                // Mouse influence
-                targetRotationX += mouseY * 0.02;
-                targetRotationY += mouseX * 0.02;
-                
-                globe.rotation.x += (targetRotationX - globe.rotation.x) * 0.02;
-                globe.rotation.y += (targetRotationY - globe.rotation.y) * 0.02;
+                // Auto rotation when not dragging
+                if (!isDragging) {
+                    // Apply momentum with friction
+                    rotationVelocity.x *= 0.95;
+                    rotationVelocity.y *= 0.95;
+                    
+                    globe.rotation.x += rotationVelocity.x;
+                    globe.rotation.y += rotationVelocity.y;
+                    
+                    // Slow auto-rotate
+                    globe.rotation.y += 0.001;
+                }
                 
                 // Rotate particles
-                particles.rotation.y += 0.0005;
-                particles.rotation.x += 0.0002;
+                particles.rotation.y += 0.0003;
                 
                 renderer.render(scene, camera);
             }
