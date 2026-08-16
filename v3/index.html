@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Golden Armor Foundation - Building a global network of protection, empowerment, and healing for communities worldwide.">
+    <title>Golden Armor Foundation | Empowering Lives, Protecting Futures</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <a href="#main-content" class="skip-link" style="position: absolute; top: -100px; left: 0; background: #2563EB; color: white; padding: 16px 24px; z-index: 10000; transition: top 0.3s; border-radius: 0 0 8px 0;">Skip to main content</a>
+    
+    <canvas id="network-canvas" aria-hidden="true"></canvas>
+    
+    <header class="header" role="banner">
+        <nav class="nav container" aria-label="Main navigation">
+            <a href="#" class="logo" aria-label="Golden Armor Foundation - Home">
+                <div class="logo-blob" aria-hidden="true"></div>
+                <span class="logo-text">Golden Armor</span>
+            </a>
+            <ul class="nav-links" role="menubar">
+                <li role="none"><a href="#mission" role="menuitem">Mission</a></li>
+                <li role="none"><a href="#programs" role="menuitem">Programs</a></li>
+                <li role="none"><a href="#impact" role="menuitem">Impact</a></li>
+                <li role="none"><a href="#about" role="menuitem">About</a></li>
+                <li role="none"><a href="#contact" role="menuitem">Contact</a></li>
+            </ul>
+            <a href="#donate" class="btn btn-primary">Donate Now</a>
+            <button class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-content container">
+                <div class="hero-badge">Shielding Communities Since 2020</div>
+                <h1 id="hero-title" class="hero-title">Building a <span class="highlight">Stronger</span> World Together</h1>
+                <p class="hero-subtitle">We are a global force for protection, empowerment, and healing—delivering life-changing resources to communities who need them most.</p>
+                <div class="hero-cta">
+                    <a href="#donate" class="btn btn-primary btn-lg">Support Our Mission</a>
+                    <a href="#programs" class="btn btn-glass btn-lg">Explore Programs</a>
+                </div>
+                <div class="hero-stats" role="list" aria-label="Foundation statistics">
+                    <div class="hero-stat" role="listitem">
+                        <span class="hero-stat-value">500+</span>
+                        <span class="hero-stat-label">Scholarships</span>
+                    </div>
+                    <div class="hero-stat" role="listitem">
+                        <span class="hero-stat-value">$2M+</span>
+                        <span class="hero-stat-label">Research Funded</span>
+                    </div>
+                    <div class="hero-stat" role="listitem">
+                        <span class="hero-stat-value">150+</span>
+                        <span class="hero-stat-label">Water Wells</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="mission" class="mission section" aria-labelledby="mission-title">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-badge">Our Vision</div>
+                    <h2 id="mission-title" class="section-title">Where Every Person Rises</h2>
+                </div>
+                <div class="mission-card">
+                    <blockquote class="mission-quote">
+                        The Golden Armor Foundation envisions a world where every person has the strength, support, and opportunity to rise beyond circumstance. We are building a global network of protection, empowerment, and healing—delivering life-changing resources to communities who need them most.
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <section id="programs" class="programs section" aria-labelledby="programs-title">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-badge">What We Do</div>
+                    <h2 id="programs-title" class="section-title">Our Four Pillars</h2>
+                    <p class="section-subtitle">We are committed to forging a future where education, health, clean water, and humanitarian care are universal rights—not privileges.</p>
+                </div>
+                
+                <div class="programs-grid" role="list">
+                    <article class="program-card scroll-animate" role="listitem">
+                        <div class="program-icon" aria-hidden="true">E</div>
+                        <h3 class="program-title">Education</h3>
+                        <p class="program-description">Open doors to higher education through scholarships that uplift promising students, break generational barriers, and create pathways to lifelong success.</p>
+                        <p class="program-motto">"Education is armor—equipping young people with the tools to transform their futures."</p>
+                        <a href="education.html" class="btn btn-outline">Learn More</a>
+                    </article>
+
+                    <article class="program-card scroll-animate delay-1" role="listitem">
+                        <div class="program-icon" aria-hidden="true">C</div>
+                        <h3 class="program-title">Cancer Research</h3>
+                        <p class="program-description">Fuel innovation that brings hope to families fighting cancer. We accelerate research, support emerging treatments, and stand with patients and caregivers.</p>
+                        <p class="program-motto">"We champion science that saves lives."</p>
+                        <a href="cancer-research.html" class="btn btn-outline">Learn More</a>
+                    </article>
+
+                    <article class="program-card scroll-animate delay-2" role="listitem">
+                        <div class="program-icon" aria-hidden="true">W</div>
+                        <h3 class="program-title">Clean Water</h3>
+                        <p class="program-description">Build sustainable water wells that restore health, dignity, and opportunity. We envision a world where every village thrives with safe, reliable water access.</p>
+                        <p class="program-motto">"Clean water is the foundation of life."</p>
+                        <a href="clean-water.html" class="btn btn-outline">Learn More</a>
+                    </article>
+
+                    <article class="program-card scroll-animate delay-3" role="listitem">
+                        <div class="program-icon" aria-hidden="true">H</div>
+                        <h3 class="program-title">Humanitarian Relief</h3>
+                        <p class="program-description">Provide compassionate support that protects vulnerable populations during crisis—offering food, shelter, medical care, and long-term recovery assistance.</p>
+                        <p class="program-motto">"We stand as a shield for those facing hardship."</p>
+                        <a href="humanitarian-relief.html" class="btn btn-outline">Learn More</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="impact" class="impact section" aria-labelledby="impact-title">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-badge">Our Results</div>
+                    <h2 id="impact-title" class="section-title">Making a Difference</h2>
+                    <p class="section-subtitle">Together, we are transforming lives and communities around the world.</p>
+                </div>
+                
+                <div class="impact-grid" role="list">
+                    <div class="impact-card scroll-animate" role="listitem">
+                        <div class="impact-icon" aria-hidden="true">E</div>
+                        <span class="impact-number">500+</span>
+                        <span class="impact-label">Scholarships Awarded</span>
+                    </div>
+                    <div class="impact-card scroll-animate delay-1" role="listitem">
+                        <div class="impact-icon" aria-hidden="true">$</div>
+                        <span class="impact-number">$2M+</span>
+                        <span class="impact-label">Invested in Research</span>
+                    </div>
+                    <div class="impact-card scroll-animate delay-2" role="listitem">
+                        <div class="impact-icon" aria-hidden="true">W</div>
+                        <span class="impact-number">150+</span>
+                        <span class="impact-label">Water Wells Built</span>
+                    </div>
+                    <div class="impact-card scroll-animate delay-3" role="listitem">
+                        <div class="impact-icon" aria-hidden="true">+</div>
+                        <span class="impact-number">50K+</span>
+                        <span class="impact-label">Lives Impacted</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about section" aria-labelledby="about-title">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-content scroll-animate">
+                        <div class="section-badge">About Us</div>
+                        <h2 id="about-title" class="section-title">Our Story</h2>
+                        <div class="about-text">
+                            <p>The Golden Armor Foundation is committed to forging a future where education, health, clean water, and humanitarian care are not privileges, but universal rights.</p>
+                            <p>We aim to be a global force for stability, resilience, and hope—empowering individuals and communities to rise stronger than ever.</p>
+                            <p>Our name represents protection, strength, and the belief that every person deserves the armor to face life's challenges and emerge victorious.</p>
+                        </div>
+                    </div>
+                    <div class="about-values scroll-animate delay-2">
+                        <h3>Our Core Values</h3>
+                        <ul>
+                            <li><strong>Empowerment</strong> — Giving people the tools to help themselves</li>
+                            <li><strong>Compassion</strong> — Standing with those in need</li>
+                            <li><strong>Integrity</strong> — Transparency in all we do</li>
+                            <li><strong>Impact</strong> — Creating lasting, meaningful change</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="donate" class="cta section" aria-labelledby="cta-title">
+            <div class="container">
+                <div class="cta-content">
+                    <h2 id="cta-title" class="cta-title">Join Our Mission</h2>
+                    <p class="cta-subtitle">Your support helps us provide education, fund cancer research, deliver clean water, and offer humanitarian relief to those who need it most.</p>
+                    <div class="cta-buttons">
+                        <a href="#" class="btn btn-primary btn-lg">Make a Donation</a>
+                        <a href="#" class="btn btn-glass btn-lg">Become a Volunteer</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact section" aria-labelledby="contact-title">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-badge">Get in Touch</div>
+                    <h2 id="contact-title" class="section-title">Contact Us</h2>
+                    <p class="section-subtitle">Have questions or want to learn more about our work? We'd love to hear from you.</p>
+                </div>
+                <div class="contact-grid">
+                    <div class="contact-info scroll-animate">
+                        <h3>Reach Out</h3>
+                        <p>We're here to answer your questions and discuss how you can be part of our mission.</p>
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <div class="contact-item-icon" aria-hidden="true">@</div>
+                                <div class="contact-item-text">
+                                    <span class="contact-item-label">Email Us</span>
+                                    <a href="mailto:info@goldenarmor.org" class="contact-item-value">info@goldenarmor.org</a>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-item-icon" aria-hidden="true">T</div>
+                                <div class="contact-item-text">
+                                    <span class="contact-item-label">Call Us</span>
+                                    <a href="tel:+15551234567" class="contact-item-value">(555) 123-4567</a>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="contact-item-icon" aria-hidden="true">L</div>
+                                <div class="contact-item-text">
+                                    <span class="contact-item-label">Visit Us</span>
+                                    <span class="contact-item-value">123 Hope Street, Suite 100</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="contact-form scroll-animate delay-2" aria-label="Contact form" novalidate>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Your Name <span aria-hidden="true">*</span></label>
+                                <input type="text" id="name" name="name" placeholder="John Doe" required autocomplete="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Your Email <span aria-hidden="true">*</span></label>
+                                <input type="email" id="email" name="email" placeholder="john@example.com" required autocomplete="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject <span aria-hidden="true">*</span></label>
+                            <input type="text" id="subject" name="subject" placeholder="How can we help?" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Your Message <span aria-hidden="true">*</span></label>
+                            <textarea id="message" name="message" placeholder="Tell us more..." rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo" aria-label="Golden Armor Foundation - Home">
+                        <span class="logo-icon" aria-hidden="true">G</span>
+                        <span class="logo-text">Golden Armor Foundation</span>
+                    </a>
+                    <p>Forging a future of hope, empowerment, and healing. We are a global force for stability, resilience, and positive change.</p>
+                    <div class="footer-social" role="list" aria-label="Social media links">
+                        <a href="#" aria-label="Facebook" role="listitem">f</a>
+                        <a href="#" aria-label="Twitter" role="listitem">X</a>
+                        <a href="#" aria-label="Instagram" role="listitem">I</a>
+                        <a href="#" aria-label="LinkedIn" role="listitem">in</a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Programs</h4>
+                    <ul>
+                        <li><a href="education.html">Education</a></li>
+                        <li><a href="cancer-research.html">Cancer Research</a></li>
+                        <li><a href="clean-water.html">Clean Water</a></li>
+                        <li><a href="humanitarian-relief.html">Humanitarian Relief</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Organization</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#impact">Our Impact</a></li>
+                        <li><a href="#">Annual Report</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#donate">Donate</a></li>
+                        <li><a href="#">Volunteer</a></li>
+                        <li><a href="#">Partner With Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Golden Armor Foundation. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        .skip-link:focus {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 10001;
+        }
+    </style>
+
+    <script src="script.js"></script>
+</body>
+</html>
