@@ -1,6 +1,6 @@
-// Golden Armor Foundation - Accessible JavaScript
+// Golden Armor Foundation - JavaScript with Blue Security Theme
 
-// Particle Network Background - White/Gray Theme
+// Particle Network Background - Blue Theme
 class ParticleNetwork {
     constructor(canvas) {
         this.canvas = canvas;
@@ -37,7 +37,6 @@ class ParticleNetwork {
     animate() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         
-        // Draw connections - subtle white lines
         for (let i = 0; i < this.particles.length; i++) {
             for (let j = i + 1; j < this.particles.length; j++) {
                 const dx = this.particles[i].x - this.particles[j].x;
@@ -45,9 +44,9 @@ class ParticleNetwork {
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 
                 if (distance < this.connectionDistance) {
-                    const opacity = (1 - distance / this.connectionDistance) * 0.15;
+                    const opacity = (1 - distance / this.connectionDistance) * 0.2;
                     this.ctx.beginPath();
-                    this.ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+                    this.ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
                     this.ctx.lineWidth = 1;
                     this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
                     this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
@@ -56,7 +55,6 @@ class ParticleNetwork {
             }
         }
         
-        // Draw and update particles
         this.particles.forEach(particle => {
             particle.update();
             particle.draw();
@@ -82,15 +80,12 @@ class Particle {
         this.x += this.vx;
         this.y += this.vy;
         
-        // Bounce off edges
         if (this.x < 0 || this.x > this.network.canvas.width) this.vx *= -1;
         if (this.y < 0 || this.y > this.network.canvas.height) this.vy *= -1;
         
-        // Keep in bounds
         this.x = Math.max(0, Math.min(this.x, this.network.canvas.width));
         this.y = Math.max(0, Math.min(this.y, this.network.canvas.height));
         
-        // Mouse interaction
         if (this.network.mouse.x && this.network.mouse.y) {
             const dx = this.network.mouse.x - this.x;
             const dy = this.network.mouse.y - this.y;
@@ -108,47 +103,39 @@ class Particle {
     }
     
     draw() {
-        // Subtle glow
         const gradient = this.network.ctx.createRadialGradient(
             this.x, this.y, 0,
             this.x, this.y, this.radius * 4
         );
-        gradient.addColorStop(0, `rgba(255, 255, 255, ${this.opacity * 0.5})`);
-        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        gradient.addColorStop(0, `rgba(59, 130, 246, ${this.opacity * 0.5})`);
+        gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
         
         this.network.ctx.beginPath();
         this.network.ctx.arc(this.x, this.y, this.radius * 4, 0, Math.PI * 2);
         this.network.ctx.fillStyle = gradient;
         this.network.ctx.fill();
         
-        // Core particle - white
         this.network.ctx.beginPath();
         this.network.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        this.network.ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+        this.network.ctx.fillStyle = `rgba(96, 165, 250, ${this.opacity})`;
         this.network.ctx.fill();
     }
 }
 
-// Initialize everything when DOM is ready
+// Initialize
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Particle Network
     const canvas = document.getElementById('network-canvas');
     if (canvas) {
         new ParticleNetwork(canvas);
     }
     
-    // Header scroll effect
+    // Header
     const header = document.querySelector('.header');
-    
     window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
+        header.classList.toggle('scrolled', window.pageYOffset > 50);
     });
     
-    // Mobile Menu Toggle
+    // Mobile Menu
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
     
@@ -156,30 +143,28 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenuBtn.addEventListener('click', function() {
             navLinks.classList.toggle('active');
             const spans = this.querySelectorAll('span');
+            const isActive = navLinks.classList.contains('active');
             
-            if (navLinks.classList.contains('active')) {
-                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-                spans[1].style.opacity = '0';
-                spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
-            } else {
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
-            }
+            spans[0].style.transform = isActive ? 'rotate(45deg) translate(5px, 5px)' : 'none';
+            spans[1].style.opacity = isActive ? '0' : '1';
+            spans[2].style.transform = isActive ? 'rotate(-45deg) translate(7px, -6px)' : 'none';
+            
+            this.setAttribute('aria-expanded', isActive);
         });
         
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
-                const spans = mobileMenuBtn.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
+                mobileMenuBtn.querySelectorAll('span').forEach((span, i) => {
+                    span.style.transform = 'none';
+                    if (i === 1) span.style.opacity = '1';
+                });
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
             });
         });
     }
     
-    // Smooth scrolling
+    // Smooth Scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
@@ -188,25 +173,13 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const target = document.querySelector(href);
             if (target) {
-                const headerOffset = 100;
-                const elementPosition = target.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
+                const offsetPosition = target.getBoundingClientRect().top + window.pageYOffset - 100;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
             }
         });
     });
     
-    // Scroll animations
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-    
+    // Scroll Animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -214,37 +187,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 observer.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.1 });
     
-    document.querySelectorAll('.scroll-animate').forEach(el => {
-        observer.observe(el);
-    });
+    document.querySelectorAll('.scroll-animate').forEach(el => observer.observe(el));
     
-    // Active nav link
+    // Active Nav
     const sections = document.querySelectorAll('section[id]');
     window.addEventListener('scroll', () => {
         const scrollY = window.pageYOffset;
-        
         sections.forEach(section => {
-            const sectionHeight = section.offsetHeight;
             const sectionTop = section.offsetTop - 150;
+            const sectionHeight = section.offsetHeight;
             const sectionId = section.getAttribute('id');
             
             if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
                 document.querySelectorAll('.nav-links a').forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
-                    }
+                    link.classList.toggle('active', link.getAttribute('href') === `#${sectionId}`);
                 });
             }
         });
     });
     
-    // Counter animation
-    const animateCounter = (element, target, duration = 2000) => {
+    // Counter Animation
+    const formatNumber = (num) => {
+        if (num >= 1000000) return '$' + (num / 1000000).toFixed(0) + 'M+';
+        if (num >= 1000) return (num / 1000).toFixed(0) + 'K+';
+        return num + '+';
+    };
+    
+    const animateCounter = (element, target) => {
         let start = 0;
-        const increment = target / (duration / 16);
+        const increment = target / 50;
         const timer = setInterval(() => {
             start += increment;
             if (start >= target) {
@@ -253,34 +226,17 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 element.textContent = formatNumber(Math.floor(start));
             }
-        }, 16);
-    };
-    
-    const formatNumber = (num) => {
-        if (num >= 1000000) {
-            return '$' + (num / 1000000).toFixed(0) + 'M+';
-        }
-        if (num >= 1000) {
-            return (num / 1000).toFixed(0) + 'K+';
-        }
-        return num + '+';
+        }, 40);
     };
     
     const statsObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const impactNumbers = entry.target.querySelectorAll('.impact-number');
-                impactNumbers.forEach(stat => {
+                entry.target.querySelectorAll('.impact-number').forEach(stat => {
                     const text = stat.textContent;
-                    let value;
-                    
-                    if (text.includes('K')) {
-                        value = parseInt(text) * 1000;
-                    } else if (text.includes('M')) {
-                        value = parseInt(text.replace('$', '')) * 1000000;
-                    } else {
-                        value = parseInt(text);
-                    }
+                    let value = text.includes('K') ? parseInt(text) * 1000 :
+                               text.includes('M') ? parseInt(text.replace('$', '')) * 1000000 :
+                               parseInt(text);
                     
                     if (!isNaN(value)) {
                         stat.textContent = '0';
@@ -293,11 +249,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { threshold: 0.5 });
     
     const impactGrid = document.querySelector('.impact-grid');
-    if (impactGrid) {
-        statsObserver.observe(impactGrid);
-    }
+    if (impactGrid) statsObserver.observe(impactGrid);
     
-    // Form submission
+    // Form
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
@@ -319,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.disabled = true;
             
             setTimeout(() => {
-                showNotification('Thank you! Your message has been sent successfully.', 'success');
+                showNotification('Message sent successfully!', 'success');
                 this.reset();
                 submitBtn.textContent = originalText;
                 submitBtn.disabled = false;
@@ -327,35 +281,32 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Accessible notification system
+    // Notification
     const showNotification = (message, type = 'info') => {
-        // Remove existing notifications
         document.querySelectorAll('.notification').forEach(n => n.remove());
         
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
         notification.setAttribute('role', 'alert');
-        notification.setAttribute('aria-live', 'polite');
+        
+        const bgColor = type === 'success' ? '#3B82F6' : '#333333';
         
         notification.innerHTML = `
-            <div class="notification-content">
-                <span class="notification-icon">${type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ'}</span>
-                <span class="notification-message">${message}</span>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.2); border-radius: 50; font-size: 14px; font-weight: bold;">${type === 'success' ? '✓' : '✕'}</span>
+                <span>${message}</span>
             </div>
-            <button class="notification-close" aria-label="Close notification">&times;</button>
+            <button class="notification-close" aria-label="Close" style="background: none; border: none; color: white; font-size: 24px; cursor: pointer; padding: 8px;">&times;</button>
         `;
         
-        document.body.appendChild(notification);
-        
-        // Style the notification - black and white
         Object.assign(notification.style, {
             position: 'fixed',
             bottom: '24px',
             right: '24px',
             padding: '16px 24px',
             borderRadius: '12px',
-            backgroundColor: type === 'success' ? '#FFFFFF' : type === 'error' ? '#333333' : '#1a1a1a',
-            color: type === 'success' ? '#000000' : '#FFFFFF',
+            backgroundColor: bgColor,
+            color: 'white',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -364,62 +315,16 @@ document.addEventListener('DOMContentLoaded', function() {
             zIndex: '9999',
             animation: 'slideInRight 0.3s ease',
             maxWidth: '400px',
-            border: `1px solid ${type === 'success' ? '#000000' : '#404040'}`,
             fontFamily: "'Inter', sans-serif"
         });
         
-        const content = notification.querySelector('.notification-content');
-        Object.assign(content.style, {
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px'
-        });
+        document.body.appendChild(notification);
         
-        const icon = notification.querySelector('.notification-icon');
-        Object.assign(icon.style, {
-            width: '28px',
-            height: '28px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: type === 'success' ? '#000000' : '#FFFFFF',
-            color: type === 'success' ? '#FFFFFF' : '#000000',
-            borderRadius: '50%',
-            fontSize: '14px',
-            fontWeight: 'bold',
-            flexShrink: '0'
-        });
-        
-        const closeBtn = notification.querySelector('.notification-close');
-        Object.assign(closeBtn.style, {
-            background: 'none',
-            border: 'none',
-            color: type === 'success' ? '#000000' : '#FFFFFF',
-            fontSize: '24px',
-            cursor: 'pointer',
-            padding: '0',
-            lineHeight: '1',
-            opacity: '0.7',
-            transition: 'opacity 0.2s',
-            minWidth: '44px',
-            minHeight: '44px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-        });
-        
-        closeBtn.addEventListener('mouseenter', () => closeBtn.style.opacity = '1');
-        closeBtn.addEventListener('mouseleave', () => closeBtn.style.opacity = '0.7');
-        
-        closeBtn.addEventListener('click', () => {
+        notification.querySelector('.notification-close').addEventListener('click', () => {
             notification.style.animation = 'slideOutRight 0.3s ease forwards';
             setTimeout(() => notification.remove(), 300);
         });
         
-        // Focus the close button for accessibility
-        closeBtn.focus();
-        
-        // Auto-remove after 5 seconds
         setTimeout(() => {
             if (notification.parentNode) {
                 notification.style.animation = 'slideOutRight 0.3s ease forwards';
@@ -428,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     };
     
-    // Add animation keyframes
+    // Add animation styles
     const style = document.createElement('style');
     style.textContent = `
         @keyframes slideInRight {
@@ -443,22 +348,17 @@ document.addEventListener('DOMContentLoaded', function() {
             display: inline-block;
             width: 16px;
             height: 16px;
-            border: 2px solid rgba(0,0,0,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
             border-radius: 50%;
-            border-top-color: #000000;
+            border-top-color: #fff;
             animation: spin 0.8s linear infinite;
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .nav-links a.active {
-            color: #FFFFFF !important;
-            background: rgba(255,255,255,0.1);
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .nav-links a.active { color: #60A5FA !important; }
     `;
     document.head.appendChild(style);
     
-    // Tilt effect on cards (subtle)
+    // Card tilt
     document.querySelectorAll('.program-card, .impact-card').forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
@@ -468,7 +368,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const centerY = rect.height / 2;
             const rotateX = (y - centerY) / 20;
             const rotateY = (centerX - x) / 20;
-            
             card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
         });
         
@@ -476,17 +375,4 @@ document.addEventListener('DOMContentLoaded', function() {
             card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
         });
     });
-    
-    // Skip link functionality
-    const skipLink = document.querySelector('.skip-link');
-    if (skipLink) {
-        skipLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            const target = document.querySelector(skipLink.getAttribute('href'));
-            if (target) {
-                target.focus();
-                target.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    }
 });
