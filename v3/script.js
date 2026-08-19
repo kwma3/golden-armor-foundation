@@ -1,6 +1,6 @@
-// Golden Armor Foundation - JavaScript with White Background & Blue Theme
+// Golden Armor Foundation - JavaScript with White Background & Gold/Red Theme
 
-// Particle Network Background - Blue on White
+// Particle Network Background - Gold on White
 class ParticleNetwork {
     constructor(canvas) {
         this.canvas = canvas;
@@ -46,7 +46,7 @@ class ParticleNetwork {
                 if (distance < this.connectionDistance) {
                     const opacity = (1 - distance / this.connectionDistance) * 0.15;
                     this.ctx.beginPath();
-                    this.ctx.strokeStyle = `rgba(37, 99, 235, ${opacity})`;
+                    this.ctx.strokeStyle = `rgba(212, 168, 83, ${opacity})`;
                     this.ctx.lineWidth = 1;
                     this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
                     this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
@@ -103,23 +103,23 @@ class Particle {
     }
     
     draw() {
-        // Subtle blue glow
+        // Subtle gold glow
         const gradient = this.network.ctx.createRadialGradient(
             this.x, this.y, 0,
             this.x, this.y, this.radius * 3
         );
-        gradient.addColorStop(0, `rgba(37, 99, 235, ${this.opacity * 0.3})`);
-        gradient.addColorStop(1, 'rgba(37, 99, 235, 0)');
+        gradient.addColorStop(0, `rgba(212, 168, 83, ${this.opacity * 0.3})`);
+        gradient.addColorStop(1, 'rgba(212, 168, 83, 0)');
         
         this.network.ctx.beginPath();
         this.network.ctx.arc(this.x, this.y, this.radius * 3, 0, Math.PI * 2);
         this.network.ctx.fillStyle = gradient;
         this.network.ctx.fill();
         
-        // Core particle - blue
+        // Core particle - gold
         this.network.ctx.beginPath();
         this.network.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        this.network.ctx.fillStyle = `rgba(37, 99, 235, ${this.opacity})`;
+        this.network.ctx.fillStyle = `rgba(212, 168, 83, ${this.opacity})`;
         this.network.ctx.fill();
     }
 }
@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
         notification.className = `notification notification-${type}`;
         notification.setAttribute('role', 'alert');
         
-        const bgColor = type === 'success' ? '#2563EB' : '#475569';
+        const bgColor = type === 'success' ? '#C41E3A' : '#475569';
         
         notification.innerHTML = `
             <div style="display: flex; align-items: center; gap: 12px;">
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alignItems: 'center',
             justifyContent: 'space-between',
             gap: '16px',
-            boxShadow: '0 10px 40px rgba(37, 99, 235, 0.3)',
+            boxShadow: '0 10px 40px rgba(196, 30, 58, 0.3)',
             zIndex: '9999',
             animation: 'slideInRight 0.3s ease',
             maxWidth: '400px',
@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
             animation: spin 0.8s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .nav-links a.active { color: #2563EB !important; background: rgba(37, 99, 235, 0.08); }
+        .nav-links a.active { color: #B8860B !important; background: rgba(212, 168, 83, 0.08); }
     `;
     document.head.appendChild(style);
     

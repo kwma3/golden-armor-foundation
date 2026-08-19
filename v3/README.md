@@ -19,7 +19,7 @@ The Golden Armor Foundation envisions a world where every person has the strengt
 ## Features
 
 - **Responsive Design**: Works on desktop, tablet, and mobile devices
-- **Modern UI**: Clean, professional design with gold and navy color scheme
+- **Modern UI**: Clean, professional design with gold and red color scheme
 - **Interactive Elements**: Smooth scrolling, animations, and form handling
 - **Accessibility**: Semantic HTML and keyboard navigation support
 - **Performance**: Optimized for fast loading times

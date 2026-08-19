@@ -18,7 +18,7 @@
     <header class="header" role="banner">
         <nav class="nav container" aria-label="Main navigation">
             <a href="#" class="logo" aria-label="Golden Armor Foundation - Home">
-                <div class="logo-blob" aria-hidden="true"></div>
+                <img src="assets/gold-shield.jpg" alt="" class="logo-img" aria-hidden="true">
                 <span class="logo-text">Golden Armor</span>
             </a>
             <ul class="nav-links" role="menubar">
@@ -262,7 +262,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="#" class="logo" aria-label="Golden Armor Foundation - Home">
-                        <span class="logo-icon" aria-hidden="true">G</span>
+                        <img src="assets/gold-shield.jpg" alt="" class="logo-img" aria-hidden="true">
                         <span class="logo-text">Golden Armor Foundation</span>
                     </a>
                     <p>Forging a future of hope, empowerment, and healing. We are a global force for stability, resilience, and positive change.</p>
@@ -441,6 +441,27 @@
                 { lat: 75, lon: -45 }, { lat: 78, lon: -55 },
             ];
             
+            // Densify coastline points so continents render as solid, defined shapes
+            const densifiedData = [];
+            const maxStep = 8;
+            for (let i = 0; i < continentData.length; i++) {
+                const p = continentData[i];
+                densifiedData.push(p);
+                const next = continentData[i + 1];
+                if (!next) continue;
+                const latDiff = Math.abs(next.lat - p.lat);
+                const lonDiff = Math.abs(next.lon - p.lon);
+                const dist = Math.sqrt(latDiff * latDiff + lonDiff * lonDiff);
+                if (dist > maxStep || dist === 0) continue;
+                const steps = Math.max(1, Math.floor(dist / 3));
+                for (let s = 1; s < steps; s++) {
+                    densifiedData.push({
+                        lat: p.lat + (next.lat - p.lat) * (s / steps),
+                        lon: p.lon + (next.lon - p.lon) * (s / steps)
+                    });
+                }
+            }
+            
             function latLonToVector3(lat, lon, radius) {
                 const phi = (90 - lat) * (Math.PI / 180);
                 const theta = (lon + 180) * (Math.PI / 180);
@@ -472,56 +493,56 @@
                 globe = new THREE.Group();
                 scene.add(globe);
                 
-                // Globe wireframe - subtle gray
+                // Globe wireframe - visible gray
                 const globeGeometry = new THREE.IcosahedronGeometry(150, 3);
                 const wireframeMaterial = new THREE.MeshBasicMaterial({
-                    color: 0xD6D3D1,
+                    color: 0x9CA3AF,
                     wireframe: true,
                     transparent: true,
-                    opacity: 0.15
+                    opacity: 0.35
                 });
                 const globeMesh = new THREE.Mesh(globeGeometry, wireframeMaterial);
                 globe.add(globeMesh);
                 
-                // Inner solid sphere - very subtle
+                // Inner solid sphere - subtle
                 const innerGeometry = new THREE.SphereGeometry(148, 32, 32);
                 const innerMaterial = new THREE.MeshBasicMaterial({
-                    color: 0xFAFAF9,
+                    color: 0xF5F5F4,
                     transparent: true,
-                    opacity: 0.3
+                    opacity: 0.45
                 });
                 const innerSphere = new THREE.Mesh(innerGeometry, innerMaterial);
                 globe.add(innerSphere);
                 
-                // Add continent dots - GOLD color
-                const dotGeometry = new THREE.SphereGeometry(2.5, 8, 8);
-                const dotMaterial = new THREE.MeshBasicMaterial({ color: 0xD4A853 });
+                // Add continent dots - GOLD color, compact points
+                const dotGeometry = new THREE.SphereGeometry(2, 8, 8);
+                const dotMaterial = new THREE.MeshBasicMaterial({ color: 0xB8860B });
                 
-                continentData.forEach(coord => {
+                densifiedData.forEach(coord => {
                     const position = latLonToVector3(coord.lat, coord.lon, 152);
                     const dot = new THREE.Mesh(dotGeometry, dotMaterial);
                     dot.position.copy(position);
                     globe.add(dot);
                 });
                 
-                // Glow around continent dots - subtle gold glow
-                const glowDotGeometry = new THREE.SphereGeometry(4, 8, 8);
+                // Glow around continent dots - soft gold glow
+                const glowDotGeometry = new THREE.SphereGeometry(3.2, 8, 8);
                 const glowDotMaterial = new THREE.MeshBasicMaterial({
                     color: 0xD4A853,
                     transparent: true,
-                    opacity: 0.2
+                    opacity: 0.25
                 });
                 
-                continentData.forEach(coord => {
+                densifiedData.forEach(coord => {
                     const position = latLonToVector3(coord.lat, coord.lon, 152);
                     const glowDot = new THREE.Mesh(glowDotGeometry, glowDotMaterial);
                     glowDot.position.copy(position);
                     globe.add(glowDot);
                 });
                 
-                // Particles around globe - very subtle
+                // Particles around globe - visible
                 const particlesGeometry = new THREE.BufferGeometry();
-                const particlesCount = 300;
+                const particlesCount = 400;
                 const posArray = new Float32Array(particlesCount * 3);
                 
                 for(let i = 0; i < particlesCount * 3; i++) {
@@ -531,10 +552,10 @@
                 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
                 
                 const particlesMaterial = new THREE.PointsMaterial({
-                    size: 0.8,
-                    color: 0xD4A853,
+                    size: 1.2,
+                    color: 0xB8860B,
                     transparent: true,
-                    opacity: 0.25,
+                    opacity: 0.45,
                     blending: THREE.AdditiveBlending
                 });
                 
